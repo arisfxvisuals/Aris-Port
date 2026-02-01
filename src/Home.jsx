@@ -6,7 +6,6 @@ import {
   Youtube,
   Twitter,
   Instagram,
-  Play,
   MessageCircle,
 } from "lucide-react";
 import Navbar from "../src/components/Navbar";
@@ -109,6 +108,37 @@ const Home = () => {
   const pricingRef = useRef(null);
   const contactRef = useRef(null);
 
+  const pageRef = useRef(null);
+
+  const [region, setRegion] = useState("international");
+  const [plan, setPlan] = useState("pro");
+
+  const pricingCardRef = useRef(null);
+  const pricingInnerRef = useRef(null);
+
+  const projectSectionRef = useRef(null);
+  const projectCardsWrapRef = useRef(null);
+
+  const formRef = useRef(null);
+  const [sending, setSending] = useState(false);
+  const [status, setStatus] = useState("");
+
+  const data = pricingData[region][plan];
+
+  const scrollToSection = (ref) => {
+    if (!ref?.current) return;
+    ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  // ✅ NEW: Project offset scroll (prevents blank black)
+  const scrollToProjects = () => {
+    if (!projectSectionRef.current) return;
+    const y =
+      projectSectionRef.current.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top: y + 60, behavior: "smooth" });
+  };
+
+  // ✅ Reveal animations observer
   useLayoutEffect(() => {
     const sections = gsap.utils.toArray(".reveal-section");
 
@@ -118,11 +148,9 @@ const Home = () => {
           if (!entry.isIntersecting) return;
 
           const section = entry.target;
-
           if (section.dataset.animated === "true") return;
           section.dataset.animated = "true";
 
-          // 🔥 SECTION ENTER TIMELINE
           const tl = gsap.timeline();
 
           tl.fromTo(
@@ -219,10 +247,10 @@ const Home = () => {
     );
 
     sections.forEach((sec) => observer.observe(sec));
-
     return () => observer.disconnect();
   }, []);
 
+  // ✅ small floating effects
   useLayoutEffect(() => {
     gsap.to(".pricing-card", {
       y: -8,
@@ -241,24 +269,7 @@ const Home = () => {
     });
   }, []);
 
-  const scrollToSection = (ref) => {
-    if (!ref?.current) return;
-    ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
-  const pageRef = useRef(null);
-
-  const [region, setRegion] = useState("international");
-  const [plan, setPlan] = useState("pro");
-
-  const pricingCardRef = useRef(null);
-  const pricingInnerRef = useRef(null);
-
-  const projectSectionRef = useRef(null);
-  const projectCardsWrapRef = useRef(null);
-
-  const data = pricingData[region][plan];
-
+  // ✅ Hero SplitText
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const split = new SplitText(".head", { type: "chars" });
@@ -295,6 +306,7 @@ const Home = () => {
     return () => ctx.revert();
   }, []);
 
+  // ✅ Pricing inner animate on plan change
   useLayoutEffect(() => {
     if (!pricingInnerRef.current) return;
 
@@ -315,10 +327,7 @@ const Home = () => {
     return () => ctx.revert();
   }, [region, plan]);
 
-  const formRef = useRef(null);
-  const [sending, setSending] = useState(false);
-  const [status, setStatus] = useState("");
-
+  // ✅ Email send
   const sendEmail = async (e) => {
     e.preventDefault();
     if (!formRef.current) return;
@@ -344,6 +353,7 @@ const Home = () => {
     }
   };
 
+  // ✅ PROJECT STACKING (fixed + scroll hint)
   useLayoutEffect(() => {
     if (!projectCardsWrapRef.current || !projectSectionRef.current) return;
 
@@ -352,19 +362,16 @@ const Home = () => {
 
       gsap.set(cards, { opacity: 0, y: 120, scale: 0.96 });
 
-      // stack order
       cards.forEach((card, i) => {
         card.style.zIndex = i + 1;
       });
 
-      // helper function
       const setActiveCard = (activeIndex) => {
         cards.forEach((c, idx) => {
           c.style.pointerEvents = idx === activeIndex ? "auto" : "none";
         });
       };
 
-      // initially first card clickable
       setActiveCard(0);
 
       const tl = gsap.timeline({
@@ -378,17 +385,22 @@ const Home = () => {
           anticipatePin: 1,
           invalidateOnRefresh: true,
 
-          // ✅ this fixes forward + reverse perfectly
           onUpdate: (self) => {
-            const p = self.progress; // 0 to 1
-            const index = Math.min(
-              cards.length - 1,
-              Math.floor(p * cards.length)
-            );
+            const p = self.progress;
+            const index = Math.min(cards.length - 1, Math.floor(p * cards.length));
             setActiveCard(index);
           },
         },
       });
+
+      // ✅ scroll hint hide
+      gsap.set(".project-scroll-hint", { opacity: 1 });
+
+      tl.to(
+        ".project-scroll-hint",
+        { opacity: 0, duration: 0.3, ease: "power2.out" },
+        0.05
+      );
 
       cards.forEach((card, i) => {
         tl.to(
@@ -428,6 +440,7 @@ const Home = () => {
         className="message"
         href="https://wa.me/9391834702?text=Hello Aris! I came across your website and would like to discuss a video editing project."
         target="_blank"
+        rel="noreferrer"
       >
         <MessageCircle className="msg-icon" size={25} color="#ffffff" />
       </a>
@@ -472,10 +485,7 @@ const Home = () => {
               smooth transitions, and powerful storytelling.
             </p>
 
-            <div
-              className="contact-btn"
-              onClick={() => scrollToSection(contactRef)}
-            >
+            <div className="contact-btn" onClick={() => scrollToSection(contactRef)}>
               <button>
                 Contact Me{" "}
                 <span>
@@ -493,11 +503,7 @@ const Home = () => {
         </section>
 
         {/* ABOUT */}
-        <section
-          className="section about-section  reveal-section"
-          id="about"
-          ref={aboutRef}
-        >
+        <section className="section about-section reveal-section" id="about" ref={aboutRef}>
           <div className="about-wrap">
             <div className="about-left">
               <div className="hero-para about-para">
@@ -506,8 +512,7 @@ const Home = () => {
               </div>
 
               <h2 className="about-title reveal-title">
-                Turning footage into{" "}
-                <span className="accent">cinematic stories</span>
+                Turning footage into <span className="accent">cinematic stories</span>
               </h2>
 
               <p className="about-desc reveal-para">
@@ -533,7 +538,7 @@ const Home = () => {
               </div>
 
               <div className="contact-btn">
-                <button onClick={() => scrollToSection(projectRef)}>
+                <button onClick={scrollToProjects}>
                   View My Work{" "}
                   <span>
                     <ArrowRight size={20} />
@@ -569,7 +574,7 @@ const Home = () => {
               <div className="about-highlight">
                 <h3>Editing Style</h3>
                 <p>• Fast pacing</p>
-                <p>• Clean cuts </p>
+                <p>• Clean cuts</p>
                 <p>• Smooth transitions</p>
                 <p>• Captions</p>
                 <p>• Sound design</p>
@@ -579,85 +584,60 @@ const Home = () => {
           </div>
         </section>
 
-        {/* PROJECTS (STACKING) */}
+        {/* PROJECTS */}
         <section className="section" ref={projectRef}>
           <div className="section-project" id="work" ref={projectSectionRef}>
+            {/* ✅ Scroll Hint */}
+            <div className="project-scroll-hint">
+              <p>Scroll</p>
+              <div className="down-arrow"></div>
+            </div>
+
             <div className="project-cards" ref={projectCardsWrapRef}>
               {/* CARD 1 */}
               <div className="card project-card">
-                {/* Top header */}
                 <div className="project-top">
                   <div className="project-heading">
                     <h3>Project 01</h3>
-                    <p>
-                      High-retention cinematic reel edit with clean pacing &
-                      transitions.
-                    </p>
+                    <p>High-retention cinematic reel edit with clean pacing & transitions.</p>
                   </div>
 
-                  <a
-                    className="live-link"
-                    href="https://youtube.com"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                  <a className="live-link" href="https://youtube.com" target="_blank" rel="noreferrer">
                     <ExternalLink size={18} />
                     <span>Live</span>
                   </a>
                 </div>
 
-                {/* Video */}
                 <div className="project-video-wrap">
                   <iframe
                     width="100%"
                     height="315"
                     src="https://www.youtube.com/embed/fXvYyNCD6JM?si=qMMbvrmfWs-ku9Pc"
                     title="YouTube video player"
-                    frameborder="0"
+                    frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allowfullscreen
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
                   ></iframe>
                 </div>
 
-                {/* Handlers */}
                 <div className="project-bottom">
                   <p className="handlers-title">Handlers</p>
 
                   <div className="handlers">
-                    <a
-                      className="icon-link linkedin"
-                      href="https://linkedin.com"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+                    <a className="icon-link linkedin" href="https://linkedin.com" target="_blank" rel="noreferrer">
                       <Linkedin size={18} />
                     </a>
 
-                    <a
-                      className="icon-link youtube"
-                      href="https://youtube.com"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+                    <a className="icon-link youtube" href="https://youtube.com" target="_blank" rel="noreferrer">
                       <Youtube size={18} />
                     </a>
 
-                    <a
-                      className="icon-link twitter"
-                      href="https://twitter.com"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+                    <a className="icon-link twitter" href="https://twitter.com" target="_blank" rel="noreferrer">
                       <Twitter size={18} />
                     </a>
 
-                    <a
-                      className="icon-link instagram"
-                      href="https://instagram.com"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+                    <a className="icon-link instagram" href="https://instagram.com" target="_blank" rel="noreferrer">
                       <Instagram size={18} />
                     </a>
                   </div>
@@ -669,33 +649,25 @@ const Home = () => {
                 <div className="project-top">
                   <div className="project-heading">
                     <h3>Project 02</h3>
-                    <p>
-                      YouTube edit with storytelling cuts, captions & sound
-                      design.
-                    </p>
+                    <p>YouTube edit with storytelling cuts, captions & sound design.</p>
                   </div>
 
-                  <a
-                    className="live-link"
-                    href="https://youtube.com"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                  <a className="live-link" href="https://youtube.com" target="_blank" rel="noreferrer">
                     <ExternalLink size={18} />
                     <span>Live</span>
                   </a>
                 </div>
 
                 <div className="project-video-wrap">
-                <iframe
+                  <iframe
                     width="100%"
                     height="315"
                     src="https://www.youtube.com/embed/fXvYyNCD6JM?si=qMMbvrmfWs-ku9Pc"
                     title="YouTube video player"
-                    frameborder="0"
+                    frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allowfullscreen
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
                   ></iframe>
                 </div>
 
@@ -703,36 +675,19 @@ const Home = () => {
                   <p className="handlers-title">Handlers</p>
 
                   <div className="handlers">
-                    <a
-                      className="icon-link linkedin"
-                      href="https://linkedin.com"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+                    <a className="icon-link linkedin" href="https://linkedin.com" target="_blank" rel="noreferrer">
                       <Linkedin size={18} />
                     </a>
-                    <a
-                      className="icon-link youtube"
-                      href="https://youtube.com"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+
+                    <a className="icon-link youtube" href="https://youtube.com" target="_blank" rel="noreferrer">
                       <Youtube size={18} />
                     </a>
-                    <a
-                      className="icon-link twitter"
-                      href="https://twitter.com"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+
+                    <a className="icon-link twitter" href="https://twitter.com" target="_blank" rel="noreferrer">
                       <Twitter size={18} />
                     </a>
-                    <a
-                      className="icon-link instagram"
-                      href="https://instagram.com"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+
+                    <a className="icon-link instagram" href="https://instagram.com" target="_blank" rel="noreferrer">
                       <Instagram size={18} />
                     </a>
                   </div>
@@ -744,32 +699,25 @@ const Home = () => {
                 <div className="project-top">
                   <div className="project-heading">
                     <h3>Project 03</h3>
-                    <p>
-                      Shorts / reels with motion graphics + smooth transitions.
-                    </p>
+                    <p>Shorts / reels with motion graphics + smooth transitions.</p>
                   </div>
 
-                  <a
-                    className="live-link"
-                    href="https://youtube.com"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                  <a className="live-link" href="https://youtube.com" target="_blank" rel="noreferrer">
                     <ExternalLink size={18} />
                     <span>Live</span>
                   </a>
                 </div>
 
                 <div className="project-video-wrap">
-                <iframe
+                  <iframe
                     width="100%"
                     height="315"
                     src="https://www.youtube.com/embed/fXvYyNCD6JM?si=qMMbvrmfWs-ku9Pc"
                     title="YouTube video player"
-                    frameborder="0"
+                    frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allowfullscreen
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
                   ></iframe>
                 </div>
 
@@ -777,51 +725,31 @@ const Home = () => {
                   <p className="handlers-title">Handlers</p>
 
                   <div className="handlers">
-                    <a
-                      className="icon-link linkedin"
-                      href="https://linkedin.com"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+                    <a className="icon-link linkedin" href="https://linkedin.com" target="_blank" rel="noreferrer">
                       <Linkedin size={18} />
                     </a>
-                    <a
-                      className="icon-link youtube"
-                      href="https://youtube.com"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+
+                    <a className="icon-link youtube" href="https://youtube.com" target="_blank" rel="noreferrer">
                       <Youtube size={18} />
                     </a>
-                    <a
-                      className="icon-link twitter"
-                      href="https://twitter.com"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+
+                    <a className="icon-link twitter" href="https://twitter.com" target="_blank" rel="noreferrer">
                       <Twitter size={18} />
                     </a>
-                    <a
-                      className="icon-link instagram"
-                      href="https://instagram.com"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+
+                    <a className="icon-link instagram" href="https://instagram.com" target="_blank" rel="noreferrer">
                       <Instagram size={18} />
                     </a>
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </section>
 
         {/* PRICING */}
-        <section
-          className="section pricing-section reveal-section"
-          id="pricing"
-          ref={pricingCardRef}
-        >
+        <section className="section pricing-section reveal-section" id="pricing" ref={pricingCardRef}>
           <div className="pricing-wrap" ref={pricingRef}>
             <div className="pricing-heading reveal-title">
               <h2>Pricing</h2>
@@ -829,17 +757,12 @@ const Home = () => {
             </div>
 
             <div className="pricing-tabs region-tabs reveal-tabs">
-              <button
-                className={`tab-btn ${region === "india" ? "active" : ""}`}
-                onClick={() => setRegion("india")}
-              >
+              <button className={`tab-btn ${region === "india" ? "active" : ""}`} onClick={() => setRegion("india")}>
                 India 🇮🇳
               </button>
 
               <button
-                className={`tab-btn ${
-                  region === "international" ? "active" : ""
-                }`}
+                className={`tab-btn ${region === "international" ? "active" : ""}`}
                 onClick={() => setRegion("international")}
               >
                 International
@@ -847,24 +770,13 @@ const Home = () => {
             </div>
 
             <div className="pricing-tabs plan-tabs reveal-tabs">
-              <button
-                className={`tab-btn ${plan === "basic" ? "active" : ""}`}
-                onClick={() => setPlan("basic")}
-              >
+              <button className={`tab-btn ${plan === "basic" ? "active" : ""}`} onClick={() => setPlan("basic")}>
                 Basic
               </button>
-
-              <button
-                className={`tab-btn ${plan === "pro" ? "active" : ""}`}
-                onClick={() => setPlan("pro")}
-              >
+              <button className={`tab-btn ${plan === "pro" ? "active" : ""}`} onClick={() => setPlan("pro")}>
                 Pro
               </button>
-
-              <button
-                className={`tab-btn ${plan === "advanced" ? "active" : ""}`}
-                onClick={() => setPlan("advanced")}
-              >
+              <button className={`tab-btn ${plan === "advanced" ? "active" : ""}`} onClick={() => setPlan("advanced")}>
                 Advanced
               </button>
             </div>
@@ -872,12 +784,7 @@ const Home = () => {
             <div className="pricing-card reveal-card">
               <div className="pricing-inner" ref={pricingInnerRef}>
                 <div className="pricing-top">
-                  <div className="pricing-badge">
-                    {region === "india"
-                      ? "For India Clients"
-                      : "Global Clients"}
-                  </div>
-
+                  <div className="pricing-badge">{region === "india" ? "For India Clients" : "Global Clients"}</div>
                   <h3 className="pricing-title">{data.title}</h3>
                   <p className="pricing-desc">{data.desc}</p>
                 </div>
@@ -894,10 +801,7 @@ const Home = () => {
                 </ul>
 
                 <div className="pricing-actions">
-                  <button
-                    onClick={() => scrollToSection(contactRef)}
-                    className="pricing-primary"
-                  >
+                  <button onClick={() => scrollToSection(contactRef)} className="pricing-primary">
                     Book Now
                   </button>
                 </div>
@@ -907,13 +811,8 @@ const Home = () => {
         </section>
 
         {/* CONTACT */}
-        <section
-          className="section section-contact reveal-section"
-          id="contact"
-          ref={contactRef}
-        >
+        <section className="section section-contact reveal-section" id="contact" ref={contactRef}>
           <div className="contact-wrap">
-            {/* LEFT SIDE */}
             <div className="contact-left reveal-left">
               <div className="hero-para about-para">
                 <p className="para">LET'S WORK TOGETHER</p>
@@ -925,9 +824,8 @@ const Home = () => {
               </h2>
 
               <p className="contact-desc">
-                Want high-retention edits, clean transitions, captions, sound
-                design and cinematic color grading? Send your project details —
-                I’ll reply within 24 hours.
+                Want high-retention edits, clean transitions, captions, sound design and cinematic color grading? Send
+                your project details — I’ll reply within 24 hours.
               </p>
 
               <div className="contact-info">
@@ -937,14 +835,12 @@ const Home = () => {
                     <b>Email:</b> aris.fxvisuals@gmail.com
                   </p>
                 </div>
-
                 <div className="info-item">
                   <span className="dot"></span>
                   <p>
                     <b>WhatsApp:</b> +91 93918 34702
                   </p>
                 </div>
-
                 <div className="info-item">
                   <span className="dot"></span>
                   <p>
@@ -954,28 +850,17 @@ const Home = () => {
               </div>
             </div>
 
-            {/* RIGHT SIDE FORM */}
             <div className="contact-card reveal-right">
               <form className="contact-form" ref={formRef} onSubmit={sendEmail}>
                 <div className="form-row">
                   <div className="form-group">
                     <label>Your Name</label>
-                    <input
-                      name="from_name"
-                      type="text"
-                      placeholder="Enter your name"
-                      required
-                    />
+                    <input name="from_name" type="text" placeholder="Enter your name" required />
                   </div>
 
                   <div className="form-group">
                     <label>Email</label>
-                    <input
-                      name="from_email"
-                      type="email"
-                      placeholder="you@example.com"
-                      required
-                    />
+                    <input name="from_email" type="email" placeholder="you@example.com" required />
                   </div>
                 </div>
 
@@ -1020,28 +905,16 @@ const Home = () => {
                 <div className="form-row">
                   <div className="form-group">
                     <label>Deadline</label>
-                    <input
-                      name="deadline"
-                      type="text"
-                      placeholder="Example: 3 days / 1 week"
-                    />
+                    <input name="deadline" type="text" placeholder="Example: 3 days / 1 week" />
                   </div>
 
                   <div className="form-group">
                     <label>Reference Link (optional)</label>
-                    <input
-                      name="reference"
-                      type="text"
-                      placeholder="YouTube / Drive / Instagram link"
-                    />
+                    <input name="reference" type="text" placeholder="YouTube / Drive / Instagram link" />
                   </div>
                 </div>
 
-                <button
-                  className="contact-submit"
-                  type="submit"
-                  disabled={sending}
-                >
+                <button className="contact-submit" type="submit" disabled={sending}>
                   {sending ? "Sending..." : "Send Message"}
                 </button>
 
@@ -1052,9 +925,7 @@ const Home = () => {
         </section>
 
         <section className="footer reveal-section">
-          <h1 className="footer-big-title reveal-title">
-            Raw Video Needs Therapy
-          </h1>
+          <h1 className="footer-big-title reveal-title">Raw Video Needs Therapy</h1>
           <p className="reveal-para">aris.fxvisuals@gmail.com</p>
           <p className="reveal-para">+91 93918 34702</p>
         </section>

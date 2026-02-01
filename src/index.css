@@ -1530,3 +1530,42 @@ ul li {
     padding: 16px;
   }
 }
+
+.project-scroll-hint{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 50;
+
+  text-align: center;
+  color: rgba(245,239,230,0.85);
+  font-weight: 900;
+  letter-spacing: 2px;
+
+  padding: 18px 22px;
+  border-radius: 999px;
+
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  pointer-events: none;
+  opacity: 1;
+}
+
+.down-arrow{
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid rgba(0,229,255,0.9);
+  border-bottom: 2px solid rgba(0,229,255,0.9);
+  margin: 10px auto 0;
+  transform: rotate(45deg);
+  animation: bounceArrow 1s infinite;
+}
+
+@keyframes bounceArrow{
+  0%,100%{ transform: translateY(0) rotate(45deg); }
+  50%{ transform: translateY(8px) rotate(45deg); }
+}
