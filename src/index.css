@@ -198,6 +198,12 @@ ul li {
   opacity: 0.8;
 }
 
+@media(max-width:500px){
+  iframe{
+    height: 200px;
+  }
+}
+
 /* ✅ HERO CIRCLE VIDEO */
 .circle {
   width: 420px;
@@ -1455,6 +1461,9 @@ ul li {
   }
   .footer-big-title{
     font-size: 20px !important;
+  }
+  .project-bottom{
+    flex-direction: column;
   }
 
 }
