@@ -108,7 +108,15 @@ const Home = () => {
   const projectRef = useRef(null);
   const pricingRef = useRef(null);
   const contactRef = useRef(null);
-
+useEffect(() => {
+  const video = document.querySelector(".project-video");
+  if (video) {
+    video.muted = true;
+    video.play().catch(() => {
+      console.log("iOS blocked autoplay");
+    });
+  }
+}, []);
   useLayoutEffect(() => {
     const sections = gsap.utils.toArray(".reveal-section");
   
@@ -468,7 +476,8 @@ const Home = () => {
             <h1 className="head">Aris Vrajan</h1>
 
             <div className="hero-para">
-              <p className="para">Professional Video Editor</p>
+              <p className="para">Professional 
+               Editor</p>
               <hr />
             </div>
 
@@ -607,15 +616,15 @@ const Home = () => {
                 {/* Video */}
                 <div className="project-video-wrap">
                   <video
-                    className="project-video"
-                    src="/vid.mp4"
-                  
-                    autoPlay
-                    loop
-                    playsInline
-                    muted
-                    preload="auto"
-                  />
+  className="project-video"
+  src="/vid.mp4"
+  muted
+  loop
+  playsInline
+  preload="metadata"
+  poster="/thumb.png"
+  onClick={(e) => e.currentTarget.play()}
+/>
                 </div>
 
                 {/* Handlers */}
