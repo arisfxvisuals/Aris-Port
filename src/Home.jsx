@@ -610,7 +610,7 @@ const Home = () => {
                 <div className="project-video-wrap">
                   <iframe
                     width="100%"
-                    height="400"
+                    height="315"
                     src="https://www.youtube.com/embed/fXvYyNCD6JM?si=qMMbvrmfWs-ku9Pc"
                     title="YouTube video player"
                     frameborder="0"
@@ -689,7 +689,7 @@ const Home = () => {
                 <div className="project-video-wrap">
                 <iframe
                     width="100%"
-                    height="400"
+                    height="315"
                     src="https://www.youtube.com/embed/fXvYyNCD6JM?si=qMMbvrmfWs-ku9Pc"
                     title="YouTube video player"
                     frameborder="0"
@@ -763,7 +763,7 @@ const Home = () => {
                 <div className="project-video-wrap">
                 <iframe
                     width="100%"
-                    height="400"
+                    height="315"
                     src="https://www.youtube.com/embed/fXvYyNCD6JM?si=qMMbvrmfWs-ku9Pc"
                     title="YouTube video player"
                     frameborder="0"
