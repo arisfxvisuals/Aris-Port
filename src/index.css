@@ -198,11 +198,6 @@ ul li {
   opacity: 0.8;
 }
 
-@media(max-width:500px){
-  iframe{
-    height: 200px;
-  }
-}
 
 /* ✅ HERO CIRCLE VIDEO */
 .circle {
@@ -729,7 +724,7 @@ ul li {
 
 @media(max-width:500px){
   iframe{
-    height: 130px;
+    height: 160px;
     width: 100%;
   }
   .project-cards .card{
@@ -740,7 +735,7 @@ ul li {
 /* responsive */
 @media(max-width:900px){
   .project-cards{
-    height: 680px;
+    height: 540px;
     max-width: 92%;
   }
   .project-video{
@@ -997,7 +992,7 @@ ul li {
 
 /*About*/
 .about-section{
-  padding: 120px 40px;
+  
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -1479,3 +1474,59 @@ ul li {
 
 }
 
+@media(max-width:600px){
+  .section{
+    padding: 90px 10px;   /* ✅ 40px -> 16px */
+    min-height: auto;     /* ✅ 100vh remove in phone */
+  }
+
+  .pricing-section,
+  .about-section{
+    padding: 90px 10px;
+  }
+
+  .hero2{
+    padding: 10px;
+    padding-top: 14vh;
+  }
+}
+
+/* ✅ About overflow fix */
+.about-left,
+.about-right{
+  min-width: 0;   /* 🔥 important for grid overflow fix */
+}
+
+.about-title,
+.about-desc,
+.tool-card,
+.about-highlight{
+  width: 100%;
+  max-width: 100%;
+}
+
+@media(max-width:600px){
+
+  .about-wrap{
+    width: 100%;
+    max-width: 100%;
+    gap: 18px;
+  }
+
+  .tools-grid{
+    grid-template-columns: 1fr; /* ✅ prevent squeeze */
+  }
+
+  .tool{
+    width: 100%;
+  }
+
+  .tool p{
+    font-size: 13px;
+    word-break: break-word;
+  }
+
+  .about-highlight{
+    padding: 16px;
+  }
+}
