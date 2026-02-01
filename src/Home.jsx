@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState,useEffect } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   ExternalLink,
@@ -108,40 +108,28 @@ const Home = () => {
   const projectRef = useRef(null);
   const pricingRef = useRef(null);
   const contactRef = useRef(null);
-useEffect(() => {
-  const video = document.querySelector(".project-video");
-  if (video) {
-    video.muted = true;
-    video.play().catch(() => {
-      console.log("iOS blocked autoplay");
-    });
-  }
-}, []);
   useLayoutEffect(() => {
     const sections = gsap.utils.toArray(".reveal-section");
-  
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
-  
+
           const section = entry.target;
-  
-      
+
           if (section.dataset.animated === "true") return;
           section.dataset.animated = "true";
-  
+
           // 🔥 SECTION ENTER TIMELINE
           const tl = gsap.timeline();
-  
-     
+
           tl.fromTo(
             section,
             { opacity: 0 },
             { opacity: 1, duration: 0.5, ease: "power2.out" }
           );
-  
-        
+
           tl.fromTo(
             section.querySelectorAll(".reveal-title"),
             { y: 80, opacity: 0, filter: "blur(10px)" },
@@ -154,31 +142,34 @@ useEffect(() => {
             },
             "-=0.2"
           );
-  
-         
+
           tl.fromTo(
             section.querySelectorAll(".reveal-para"),
             { y: 60, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.8, stagger: 0.12, ease: "power3.out" },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.8,
+              stagger: 0.12,
+              ease: "power3.out",
+            },
             "-=0.55"
           );
-  
-         
+
           tl.fromTo(
             section.querySelectorAll(".reveal-left"),
             { x: -120, opacity: 0 },
             { x: 0, opacity: 1, duration: 0.9, ease: "power4.out" },
             "-=0.55"
           );
-  
+
           tl.fromTo(
             section.querySelectorAll(".reveal-right"),
             { x: 120, opacity: 0 },
             { x: 0, opacity: 1, duration: 0.9, ease: "power4.out" },
             "-=0.85"
           );
-  
-        
+
           tl.fromTo(
             section.querySelectorAll(".reveal-stats .stat"),
             { y: 40, opacity: 0, scale: 0.9 },
@@ -192,8 +183,7 @@ useEffect(() => {
             },
             "-=0.6"
           );
-  
-         
+
           tl.fromTo(
             section.querySelectorAll(".reveal-tabs .tab-btn"),
             { y: 30, opacity: 0 },
@@ -206,8 +196,7 @@ useEffect(() => {
             },
             "-=0.55"
           );
-  
-         
+
           tl.fromTo(
             section.querySelectorAll(".reveal-card"),
             { y: 80, opacity: 0, scale: 0.97, filter: "blur(12px)" },
@@ -221,16 +210,15 @@ useEffect(() => {
             },
             "-=0.65"
           );
-  
-         
+
           observer.unobserve(section);
         });
       },
-      { threshold: 0.22 } 
+      { threshold: 0.22 }
     );
-  
+
     sections.forEach((sec) => observer.observe(sec));
-  
+
     return () => observer.disconnect();
   }, []);
 
@@ -242,7 +230,7 @@ useEffect(() => {
       yoyo: true,
       ease: "sine.inOut",
     });
-  
+
     gsap.to(".footer-big-title", {
       filter: "drop-shadow(0 0 18px rgba(0,229,255,0.25))",
       duration: 2.5,
@@ -251,7 +239,6 @@ useEffect(() => {
       ease: "sine.inOut",
     });
   }, []);
-  
 
   const scrollToSection = (ref) => {
     if (!ref?.current) return;
@@ -270,7 +257,6 @@ useEffect(() => {
   const projectCardsWrapRef = useRef(null);
 
   const data = pricingData[region][plan];
-
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -308,7 +294,6 @@ useEffect(() => {
     return () => ctx.revert();
   }, []);
 
-  
   useLayoutEffect(() => {
     if (!pricingInnerRef.current) return;
 
@@ -346,7 +331,6 @@ useEffect(() => {
         import.meta.env.VITE_TEMPLATE_ID,
         formRef.current,
         import.meta.env.VITE_PUBLIC_KEY
-        
       );
 
       setStatus(" Message sent successfully! I’ll reply within 24 hours.");
@@ -359,30 +343,29 @@ useEffect(() => {
     }
   };
 
- 
   useLayoutEffect(() => {
     if (!projectCardsWrapRef.current || !projectSectionRef.current) return;
-  
+
     const ctx = gsap.context(() => {
       const cards = gsap.utils.toArray(".project-cards .card");
-  
+
       gsap.set(cards, { opacity: 0, y: 120, scale: 0.96 });
-  
+
       // stack order
       cards.forEach((card, i) => {
         card.style.zIndex = i + 1;
       });
-  
+
       // helper function
       const setActiveCard = (activeIndex) => {
         cards.forEach((c, idx) => {
           c.style.pointerEvents = idx === activeIndex ? "auto" : "none";
         });
       };
-  
+
       // initially first card clickable
       setActiveCard(0);
-  
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: projectSectionRef.current,
@@ -393,7 +376,7 @@ useEffect(() => {
           pinSpacing: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-  
+
           // ✅ this fixes forward + reverse perfectly
           onUpdate: (self) => {
             const p = self.progress; // 0 to 1
@@ -405,7 +388,7 @@ useEffect(() => {
           },
         },
       });
-  
+
       cards.forEach((card, i) => {
         tl.to(
           card,
@@ -418,7 +401,7 @@ useEffect(() => {
           },
           i
         );
-  
+
         if (i > 0) {
           tl.to(
             cards[i - 1],
@@ -434,17 +417,20 @@ useEffect(() => {
         }
       });
     }, pageRef);
-  
+
     return () => ctx.revert();
   }, []);
-  
 
   return (
     <div className="page" ref={pageRef}>
-      <a className="message" href="https://wa.me/9391834702?text=Hello Aris! I came across your website and would like to discuss a video editing project." target="_blank">
-      <MessageCircle  className="msg-icon" size={25} color="#ffffff" />
+      <a
+        className="message"
+        href="https://wa.me/9391834702?text=Hello Aris! I came across your website and would like to discuss a video editing project."
+        target="_blank"
+      >
+        <MessageCircle className="msg-icon" size={25} color="#ffffff" />
       </a>
-      
+
       <Particles
         className="particles-bg"
         particleColors={["#ffffff"]}
@@ -476,8 +462,7 @@ useEffect(() => {
             <h1 className="head">Aris Vrajan</h1>
 
             <div className="hero-para">
-              <p className="para">Professional 
-               Editor</p>
+              <p className="para">Professional Editor</p>
               <hr />
             </div>
 
@@ -486,7 +471,10 @@ useEffect(() => {
               smooth transitions, and powerful storytelling.
             </p>
 
-            <div className="contact-btn" onClick={()=>scrollToSection(contactRef)}>
+            <div
+              className="contact-btn"
+              onClick={() => scrollToSection(contactRef)}
+            >
               <button>
                 Contact Me{" "}
                 <span>
@@ -504,7 +492,11 @@ useEffect(() => {
         </section>
 
         {/* ABOUT */}
-        <section className="section about-section  reveal-section" id="about" ref={aboutRef}>
+        <section
+          className="section about-section  reveal-section"
+          id="about"
+          ref={aboutRef}
+        >
           <div className="about-wrap">
             <div className="about-left">
               <div className="hero-para about-para">
@@ -616,15 +608,17 @@ useEffect(() => {
                 {/* Video */}
                 <div className="project-video-wrap">
                   <video
-  className="project-video"
-  src="/vid.mp4"
-  muted
-  loop
-  playsInline
-  preload="metadata"
-  poster="/thumb.png"
-  onClick={(e) => e.currentTarget.play()}
-/>
+                    className="project-video"
+                    src="/vid.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    webkit-playsinline="true"
+                    preload="auto"
+                    onTouchStart={(e) => e.currentTarget.play()}
+                    onClick={(e) => e.currentTarget.play()}
+                  />
                 </div>
 
                 {/* Handlers */}
@@ -697,12 +691,16 @@ useEffect(() => {
                   <video
                     className="project-video"
                     src="/vid.mp4"
-                    loop
                     autoPlay
                     muted
-                    preload="metadata"
+                    loop
+                    playsInline
+                    webkit-playsinline="true"
+                    preload="auto"
+                    poster="/thumb.png"
+                    onTouchStart={(e) => e.currentTarget.play()}
+                    onClick={(e) => e.currentTarget.play()}
                   />
-                  
                 </div>
 
                 <div className="project-bottom">
@@ -771,11 +769,15 @@ useEffect(() => {
                     className="project-video"
                     src="/vid.mp4"
                     autoPlay
-                    loop
                     muted
-                    preload="metadata"
+                    loop
+                    playsInline
+                    webkit-playsinline="true"
+                    preload="auto"
+                    poster="/thumb.png"
+                    onTouchStart={(e) => e.currentTarget.play()}
+                    onClick={(e) => e.currentTarget.play()}
                   />
-                  
                 </div>
 
                 <div className="project-bottom">
@@ -1057,9 +1059,11 @@ useEffect(() => {
         </section>
 
         <section className="footer reveal-section">
-         <h1 className="footer-big-title reveal-title">Raw Video Needs Therapy</h1>
-         <p className="reveal-para">aris.fxvisuals@gmail.com</p>
-         <p className="reveal-para">+91 93918 34702</p>
+          <h1 className="footer-big-title reveal-title">
+            Raw Video Needs Therapy
+          </h1>
+          <p className="reveal-para">aris.fxvisuals@gmail.com</p>
+          <p className="reveal-para">+91 93918 34702</p>
         </section>
       </div>
     </div>
