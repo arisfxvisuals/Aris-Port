@@ -20,7 +20,7 @@ gsap.registerPlugin(SplitText, ScrollTrigger);
 const pricingData = {
   india: {
     basic: {
-      price: "₹4,999",
+      price: "₹999",
       title: "Basic Edit",
       desc: "Perfect for short videos & quick edits with clean cuts.",
       features: [
@@ -61,7 +61,7 @@ const pricingData = {
 
   international: {
     basic: {
-      price: "$79",
+      price: "$49",
       title: "Basic Edit",
       desc: "Clean edits that keep viewers hooked from frame one.",
       features: [
@@ -86,7 +86,7 @@ const pricingData = {
       ],
     },
     advanced: {
-      price: "$349",
+      price: "$499",
       title: "Advanced Cinematic",
       desc: "Premium cinematic editing + motion design package.",
       features: [
@@ -598,11 +598,11 @@ const Home = () => {
               <div className="card project-card">
                 <div className="project-top">
                   <div className="project-heading">
-                    <h3>Project 01</h3>
+                    <h3>Spotify Ad</h3>
                     <p>High-retention cinematic reel edit with clean pacing & transitions.</p>
                   </div>
 
-                  <a className="live-link" href="https://youtube.com" target="_blank" rel="noreferrer">
+                  <a className="live-link" href="https://www.instagram.com/reel/DUaxR39CtnD/?igsh=bXhwanNtY2JnYzgz" target="_blank" rel="noreferrer">
                     <ExternalLink size={18} />
                     <span>Live</span>
                   </a>
@@ -612,7 +612,7 @@ const Home = () => {
                   <iframe
                     width="100%"
                     height="315"
-                    src="https://www.youtube.com/embed/fXvYyNCD6JM?si=qMMbvrmfWs-ku9Pc"
+                    src="https://www.youtube.com/embed/Hdh5rhDqWBc?si=qWLF9MO2IGMWrJgp"
                     title="YouTube video player"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -625,19 +625,19 @@ const Home = () => {
                   <p className="handlers-title">Handlers</p>
 
                   <div className="handlers">
-                    <a className="icon-link linkedin" href="https://linkedin.com" target="_blank" rel="noreferrer">
+                    <a className="icon-link linkedin" href="https://www.linkedin.com/in/aris-vrajan-b805b63ab/" target="_blank" rel="noreferrer">
                       <Linkedin size={18} />
                     </a>
 
-                    <a className="icon-link youtube" href="https://youtube.com" target="_blank" rel="noreferrer">
+                    <a className="icon-link youtube" href="https://www.youtube.com/@Aris.fxvisuals" target="_blank" rel="noreferrer">
                       <Youtube size={18} />
                     </a>
 
-                    <a className="icon-link twitter" href="https://twitter.com" target="_blank" rel="noreferrer">
+                    <a className="icon-link twitter" href="https://x.com/Aris_fxvisuals" target="_blank" rel="noreferrer">
                       <Twitter size={18} />
                     </a>
 
-                    <a className="icon-link instagram" href="https://instagram.com" target="_blank" rel="noreferrer">
+                    <a className="icon-link instagram" href="https://www.instagram.com/aris.fxvisuals?igsh=MWwxYjd6ZmNsbHhrNg==" target="_blank" rel="noreferrer">
                       <Instagram size={18} />
                     </a>
                   </div>
@@ -648,11 +648,11 @@ const Home = () => {
               <div className="card project-card">
                 <div className="project-top">
                   <div className="project-heading">
-                    <h3>Project 02</h3>
+                    <h3>Motion Graphics</h3>
                     <p>YouTube edit with storytelling cuts, captions & sound design.</p>
                   </div>
 
-                  <a className="live-link" href="https://youtube.com" target="_blank" rel="noreferrer">
+                  <a className="live-link" href="https://www.instagram.com/reel/DT2My4uCiMf/?igsh=MWd1dHg3dmhheTdkZA==" target="_blank" rel="noreferrer">
                     <ExternalLink size={18} />
                     <span>Live</span>
                   </a>
@@ -662,7 +662,7 @@ const Home = () => {
                   <iframe
                     width="100%"
                     height="315"
-                    src="https://www.youtube.com/embed/fXvYyNCD6JM?si=qMMbvrmfWs-ku9Pc"
+                    src="https://www.youtube.com/embed/fXvYyNCD6JM?si=CclX7ubEWGKpb_P1"
                     title="YouTube video player"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -675,19 +675,19 @@ const Home = () => {
                   <p className="handlers-title">Handlers</p>
 
                   <div className="handlers">
-                    <a className="icon-link linkedin" href="https://linkedin.com" target="_blank" rel="noreferrer">
+                    <a className="icon-link linkedin" href="https://www.linkedin.com/in/aris-vrajan-b805b63ab/" target="_blank" rel="noreferrer">
                       <Linkedin size={18} />
                     </a>
 
-                    <a className="icon-link youtube" href="https://youtube.com" target="_blank" rel="noreferrer">
+                    <a className="icon-link youtube" href="https://www.youtube.com/@Aris.fxvisuals" target="_blank" rel="noreferrer">
                       <Youtube size={18} />
                     </a>
 
-                    <a className="icon-link twitter" href="https://twitter.com" target="_blank" rel="noreferrer">
+                    <a className="icon-link twitter" href="https://x.com/Aris_fxvisuals" target="_blank" rel="noreferrer">
                       <Twitter size={18} />
                     </a>
 
-                    <a className="icon-link instagram" href="https://instagram.com" target="_blank" rel="noreferrer">
+                    <a className="icon-link instagram" href="https://www.instagram.com/aris.fxvisuals?igsh=MWwxYjd6ZmNsbHhrNg==" target="_blank" rel="noreferrer">
                       <Instagram size={18} />
                     </a>
                   </div>
@@ -698,11 +698,11 @@ const Home = () => {
               <div className="card project-card">
                 <div className="project-top">
                   <div className="project-heading">
-                    <h3>Project 03</h3>
+                    <h3>Shorts</h3>
                     <p>Shorts / reels with motion graphics + smooth transitions.</p>
                   </div>
 
-                  <a className="live-link" href="https://youtube.com" target="_blank" rel="noreferrer">
+                  <a className="live-link" href="https://www.instagram.com/reel/DUDjm-9iAFJ/?igsh=MTFhN3UxZWNqZjM1cA==" target="_blank" rel="noreferrer">
                     <ExternalLink size={18} />
                     <span>Live</span>
                   </a>
@@ -712,7 +712,7 @@ const Home = () => {
                   <iframe
                     width="100%"
                     height="315"
-                    src="https://www.youtube.com/embed/fXvYyNCD6JM?si=qMMbvrmfWs-ku9Pc"
+                    src="https://www.youtube.com/embed/hlK8AESNsn0?si=yu6b4SiRG3XrBQPL"
                     title="YouTube video player"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -725,19 +725,19 @@ const Home = () => {
                   <p className="handlers-title">Handlers</p>
 
                   <div className="handlers">
-                    <a className="icon-link linkedin" href="https://linkedin.com" target="_blank" rel="noreferrer">
+                    <a className="icon-link linkedin" href="https://www.linkedin.com/in/aris-vrajan-b805b63ab/" target="_blank" rel="noreferrer">
                       <Linkedin size={18} />
                     </a>
 
-                    <a className="icon-link youtube" href="https://youtube.com" target="_blank" rel="noreferrer">
+                    <a className="icon-link youtube" href="https://www.youtube.com/@Aris.fxvisuals" target="_blank" rel="noreferrer">
                       <Youtube size={18} />
                     </a>
 
-                    <a className="icon-link twitter" href="https://twitter.com" target="_blank" rel="noreferrer">
+                    <a className="icon-link twitter" href="https://x.com/Aris_fxvisuals" target="_blank" rel="noreferrer">
                       <Twitter size={18} />
                     </a>
 
-                    <a className="icon-link instagram" href="https://instagram.com" target="_blank" rel="noreferrer">
+                    <a className="icon-link instagram" href="https://www.instagram.com/aris.fxvisuals?igsh=MWwxYjd6ZmNsbHhrNg==" target="_blank" rel="noreferrer">
                       <Instagram size={18} />
                     </a>
                   </div>
@@ -788,9 +788,10 @@ const Home = () => {
                   <h3 className="pricing-title">{data.title}</h3>
                   <p className="pricing-desc">{data.desc}</p>
                 </div>
-
+                <p>Starting from ...</p>
                 <div className="pricing-price">
-                  <span className="price">{data.price}</span>
+                  
+                  {region==="india"?<span className="price">{data.price}/-</span>:<span className="price">{data.price}</span>}
                   <span className="per">per video</span>
                 </div>
 
